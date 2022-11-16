@@ -1,6 +1,7 @@
 package com.example.ReservationSystem.model;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.*;
 
 import javax.persistence.*;
@@ -8,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Getter @Setter @NoArgsConstructor
 @Table(name = "instructor")
 @Data
 
@@ -17,16 +17,20 @@ public class Instructor {
     /* fields */
     @Id
     @Column(name = "instructor_id")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
+    @Column(name = "instructor_name")
     private String name;
 
-    @OneToMany (mappedBy = "instructor")
-    @JsonManagedReference
-    private List<TimeSlot> myAvailabilities = new ArrayList<>();
 
-    public Instructor(Long id, String name) {
-        this.id = id;
-        this.name = name;
-    }
+    @OneToOne(cascade = {CascadeType.ALL})
+    @JoinColumn(name = "user_id")
+    @MapsId
+    @JsonBackReference("user-instructor")
+    User user;
+
+    @Column(name = "Expertise")
+    String expertise;
 
 }

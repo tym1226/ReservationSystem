@@ -10,5 +10,5 @@ import java.util.Optional;
 @Repository
 public interface InstructorRepository extends CrudRepository<Instructor, Long> {
 
-    Optional<Instructor> findInstructorById(Long id);
+    Instructor findInstructorById(Long id);
 }
